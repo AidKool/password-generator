@@ -22,4 +22,18 @@ function getPasswordLength() {
   return length;
 }
 
+function useLowercase() {
+  return confirm('Do you want to use lowercase letters?');
+}
 
+function useUppercase() {
+  return confirm('Do you want to use uppercase letters?');
+}
+
+function useNumbers() {
+  return confirm('Do you want to use numbers?');
+}
+
+function useSpecialCharacters() {
+  return confirm('Do you want to use special characters?');
+}
