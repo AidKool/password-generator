@@ -12,6 +12,22 @@ function writePassword() {
 // Add event listener to generate button
 generateBtn.addEventListener('click', writePassword);
 
+function generatePassword() {
+  const length = getPasswordLength();
+  const characters = getCharacters();
+  const validCharacters = validateCharacters(
+    characters.lowercase,
+    characters.uppercase,
+    characters.numbers,
+    characters.specialCharacters
+  );
+  if (!validCharacters) {
+    alert('At least one character type must be selected.\nExiting application.');
+    return;
+  }
+  // generate password here
+}
+
 function getPasswordLength() {
   const minLength = 8;
   const maxLength = 128;
@@ -20,6 +36,23 @@ function getPasswordLength() {
     length = prompt('Enter password length.\nPasswords must be between 8 and 128 characters long.', 20);
   }
   return length;
+}
+
+function validateCharacters(lowercase, uppercase, numbers, specialCharacters) {
+  return lowercase || uppercase || numbers || specialCharacters;
+}
+
+function getCharacters() {
+  let lowercase = useLowercase();
+  let uppercase = useUppercase();
+  let numbers = useNumbers();
+  let specialCharacters = useSpecialCharacters();
+  return {
+    lowercase: lowercase,
+    uppercase: uppercase,
+    numbers: numbers,
+    specialCharacters: specialCharacters,
+  };
 }
 
 function useLowercase() {
