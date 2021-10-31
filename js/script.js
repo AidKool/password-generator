@@ -4,6 +4,8 @@ let generateBtn = document.querySelector('#generate');
 // Write password to the #password input
 function writePassword() {
   let password = generatePassword();
+
+  // check that a valid password was generated
   if (password !== undefined) {
     let passwordText = document.querySelector('#password');
     passwordText.value = password;
@@ -15,20 +17,26 @@ generateBtn.addEventListener('click', writePassword);
 
 function generatePassword() {
   const length = getPasswordLength();
+
+  // stop if the user cancels the process
   if (length == null) {
     return;
   }
-  const characters = getCharacters();
+
+  const characters = getCharactersFromUser();
   const validCharacters = validateCharacters(
     characters.lowercase,
     characters.uppercase,
     characters.numbers,
     characters.specialCharacters
   );
+
+  // stop if no character type is selected
   if (!validCharacters) {
     alert('At least one character type must be selected.\nExiting application.');
     return;
   }
+
   return createPassword(length, characters);
 }
 
@@ -38,6 +46,8 @@ function createPassword(length, charsToUse) {
   const letters = 'abcdefghijklmnopqrstuvwxyz';
   const numbers = '0123456789';
   const special = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~';
+
+  // add the characters the user chooses to the pool of possible characters
   if (charsToUse.lowercase) {
     characters = characters.concat(letters);
   }
@@ -50,10 +60,12 @@ function createPassword(length, charsToUse) {
   if (charsToUse.specialCharacters) {
     characters = characters.concat(special);
   }
+
   for (let i = 0; i < length; i++) {
     let random = Math.floor(Math.random() * characters.length);
     password = password.concat(characters.charAt(random));
   }
+
   return password;
 }
 
@@ -62,6 +74,7 @@ function getPasswordLength() {
   const maxLength = 128;
   let length = 0;
   while (!(length >= minLength && length <= maxLength) && length !== null) {
+    // null lets the user cancel
     length = prompt(
       `Enter password length.\nPasswords must be between ${minLength} and ${maxLength} characters long.`,
       20
@@ -74,7 +87,7 @@ function validateCharacters(lowercase, uppercase, numbers, specialCharacters) {
   return lowercase || uppercase || numbers || specialCharacters;
 }
 
-function getCharacters() {
+function getCharactersFromUser() {
   let lowercase = useLowercase();
   let uppercase = useUppercase();
   let numbers = useNumbers();
