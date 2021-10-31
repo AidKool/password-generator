@@ -13,7 +13,7 @@ function writePassword() {
 generateBtn.addEventListener('click', writePassword);
 
 function generatePassword() {
-  const length = getPasswordLength();
+  const pwLength = getPasswordLength();
   const characters = getCharacters();
   const validCharacters = validateCharacters(
     characters.lowercase,
@@ -25,7 +25,33 @@ function generatePassword() {
     alert('At least one character type must be selected.\nExiting application.');
     return;
   }
-  // generate password here
+  let password = createPassword(pwLength, characters);
+  return password;
+}
+
+function createPassword(pwLength, charsToUse) {
+  let password = '';
+  let characters = '';
+  let letters = 'abcdefghijklmnopqrstuvwxyz';
+  let numbers = '0123456789';
+  let special = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~';
+  if (charsToUse.lowercase) {
+    characters = characters.concat(letters);
+  }
+  if (charsToUse.uppercase) {
+    characters = characters.concat(letters.toUpperCase());
+  }
+  if (charsToUse.numbers) {
+    characters = characters.concat(numbers);
+  }
+  if (charsToUse.specialCharacters) {
+    characters = characters.concat(special);
+  }
+  for (let i = 0; i < pwLength; i++) {
+    let random = Math.floor(Math.random() * characters.length);
+    password = password.concat(characters.charAt(random));
+  }
+  return password;
 }
 
 function getPasswordLength() {
