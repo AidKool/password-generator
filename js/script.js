@@ -33,7 +33,10 @@ function getPasswordLength() {
   const maxLength = 128;
   let length = 0;
   while (!(length >= minLength && length <= maxLength)) {
-    length = prompt('Enter password length.\nPasswords must be between 8 and 128 characters long.', 20);
+    length = prompt(
+      `Enter password length.\nPasswords must be between ${minLength} and ${maxLength} characters long.`,
+      20
+    );
   }
   return length;
 }
