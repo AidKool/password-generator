@@ -4,16 +4,20 @@ let generateBtn = document.querySelector('#generate');
 // Write password to the #password input
 function writePassword() {
   let password = generatePassword();
-  let passwordText = document.querySelector('#password');
-
-  passwordText.value = password;
+  if (password !== undefined) {
+    let passwordText = document.querySelector('#password');
+    passwordText.value = password;
+  }
 }
 
 // Add event listener to generate button
 generateBtn.addEventListener('click', writePassword);
 
 function generatePassword() {
-  const pwLength = getPasswordLength();
+  const length = getPasswordLength();
+  if (length == null) {
+    return;
+  }
   const characters = getCharacters();
   const validCharacters = validateCharacters(
     characters.lowercase,
@@ -25,16 +29,15 @@ function generatePassword() {
     alert('At least one character type must be selected.\nExiting application.');
     return;
   }
-  let password = createPassword(pwLength, characters);
-  return password;
+  return createPassword(length, characters);
 }
 
-function createPassword(pwLength, charsToUse) {
+function createPassword(length, charsToUse) {
   let password = '';
   let characters = '';
-  let letters = 'abcdefghijklmnopqrstuvwxyz';
-  let numbers = '0123456789';
-  let special = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~';
+  const letters = 'abcdefghijklmnopqrstuvwxyz';
+  const numbers = '0123456789';
+  const special = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~';
   if (charsToUse.lowercase) {
     characters = characters.concat(letters);
   }
@@ -47,7 +50,7 @@ function createPassword(pwLength, charsToUse) {
   if (charsToUse.specialCharacters) {
     characters = characters.concat(special);
   }
-  for (let i = 0; i < pwLength; i++) {
+  for (let i = 0; i < length; i++) {
     let random = Math.floor(Math.random() * characters.length);
     password = password.concat(characters.charAt(random));
   }
@@ -58,7 +61,7 @@ function getPasswordLength() {
   const minLength = 8;
   const maxLength = 128;
   let length = 0;
-  while (!(length >= minLength && length <= maxLength)) {
+  while (!(length >= minLength && length <= maxLength) && length !== null) {
     length = prompt(
       `Enter password length.\nPasswords must be between ${minLength} and ${maxLength} characters long.`,
       20
