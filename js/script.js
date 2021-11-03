@@ -4,12 +4,10 @@ let generateBtn = document.querySelector('#generate');
 // Write password to the #password input
 function writePassword() {
   let password = generatePassword();
+  let passwordText = document.querySelector('#password');
 
   // check that a valid password was generated
-  if (password !== undefined) {
-    let passwordText = document.querySelector('#password');
-    passwordText.value = password;
-  }
+  password ? (passwordText.value = password) : (passwordText.value = null);
 }
 
 // Add event listener to generate button
